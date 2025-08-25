@@ -4,6 +4,7 @@
 /** Array mit Referenz auf die <input>-Elemente für die Listeneinträge. */
 let inputEintragArray = [];
 
+/** Referenz auf <div>-Element zur Anzeige Meldungstext. */
 let divMeldung = null;
 
 
@@ -31,11 +32,22 @@ window.addEventListener( "load", async function () {
 });
 
 
-function zeigeNachricht( nachricht ) {
+/**
+ * Zeigt eine Nachricht im Meldungsbereich an.
+ *
+ * @param {string} nachricht Text, der angezeigt werden soll
+ *
+ * @param {string} stil Stil der Meldung (z.B. "erfolg", "fehler", "info")
+ */
+function zeigeNachricht( nachricht, stil ) {
 
-    divMeldung.textContent = nachricht;
+    divMeldung.textContent   = nachricht;
+    divMeldung.className     = stil;
+    divMeldung.style.display = "block"; // sichtbar schalten
+
+    // Nach 5 Sekunden die Meldung ausblenden
     setTimeout( () => {
-        divMeldung.textContent = "";
+        divMeldung.style.display = "none";
     }, 5000 );
 }
 
@@ -51,7 +63,7 @@ async function ladeListe() {
 
         if ( eintraegeVonDb.length === 0 ) {
 
-            zeigeNachricht( "Es sind keine gespeicherten Einträge vorhanden." );
+            zeigeNachricht( "Es sind keine gespeicherten Einträge vorhanden.", "info" );
             return;
         }
 
@@ -71,7 +83,7 @@ async function ladeListe() {
     } catch ( fehler ) {
 
         console.error( "Fehler beim Laden der Liste aus der Datenbank:", fehler );
-        zeigeNachricht( "Fehler beim Laden der gespeicherten Einträge." );
+        zeigeNachricht( "Fehler beim Laden der gespeicherten Einträge.", "fehler" );
     }
 }
 
@@ -102,5 +114,5 @@ async function onSpeichernButton( event ) {
     await speichereListe( eintraegeArray );
     console.log( `Anzahl gespeicherte Einträge: ${eintraegeArray.length}` );
 
-    zeigeNachricht( "Liste gespeichert" );
+    zeigeNachricht( "Liste gespeichert", "erfolg" );
 }
