@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Meine Bucket List</title>
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="bucketlist-styles.css">
+</head>
+<body>
+
+  <h1>Meine Bucket List</h1>
+
+  <form id="bucketlistFormular">
+
+    <div class="form-group">
+      <label for="eintrag1">#1 </label>
+      <input type="text" id="eintrag1" required><!-- Nur der Eintrag auf Platz 1 ist obligatorisch -->
+    </div>
+    <br>
+
+    <div class="form-group">
+      <label for="eintrag2">#2 </label>
+      <input type="text" id="eintrag2">
+    </div>
+    <br>
+
+    <div class="form-group">
+      <label for="eintrag3">#3 </label>
+      <input type="text" id="eintrag3">
+    </div>
+    <br>
+
+    <div class="form-group">
+      <label for="eintrag4">#4 </label>
+      <input type="text" id="eintrag4">
+    </div>
+    <br>
+
+    <div class="form-group">
+      <label for="eintrag5">#5 </label>
+      <input type="text" id="eintrag5">
+    </div>
+    <br><br>
+
+    <button type="submit">Speichern</button>
+
+  </form>
+  <br><br>
+
+  <script src="datenbank.js"></script>
+  <script src="liste.js"></script>
+
+</body>
+</html>
