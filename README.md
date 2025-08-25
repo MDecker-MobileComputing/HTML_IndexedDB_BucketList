@@ -5,7 +5,7 @@
 Dieses Repo enthält eine Web-Seite, die eine [Bucket List](https://www.brigitte.de/liebe/persoenlichkeit/bucket-list--152-ideen-fuer-unvergessliche-life-goals-13526550.html#was-ist-eine-bucket-list)
 implementiert.
 Zum Speichern der Daten wird [IndexedDB](https://www.ionos.de/digitalguide/websites/web-entwicklung/indexeddb/)
-verwendet (die Daten werden also nur in einer Browser-Installation gespeichert).
+verwendet (die Daten werden also nur in einer Browser-Instanz/Installation gespeichert).
 
 <br>
 

@@ -1,5 +1,7 @@
 "use strict";
 
+
+/** Array mit Referenz auf die <input>-Elemente für die Listeneinträge. */
 let inputEintragArray = [];
 
 
@@ -73,13 +75,14 @@ async function onSpeichernButton( event ) {
 
     for ( let i = 0; i < inputEintragArray.length; i++ ) {
 
-        const text = inputEintragArray[i].value.trim();
-        if ( text.length > 0 ) {
+        const eintragText = inputEintragArray[i].value.trim();
+        if ( eintragText.length > 0 ) {
 
             const eintragObj = {
                 nummer: i + 1,
-                text  : text
-            }
+                text  : eintragText
+            };
+
             eintraegeArray.push( eintragObj );
         }
     }
