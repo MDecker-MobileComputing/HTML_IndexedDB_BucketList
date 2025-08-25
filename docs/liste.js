@@ -4,6 +4,8 @@
 /** Array mit Referenz auf die <input>-Elemente für die Listeneinträge. */
 let inputEintragArray = [];
 
+let divMeldung = null;
+
 
 /**
  * Event-Handler, der aufgerufen wird, wenn die Webseite geladen wurde.
@@ -18,6 +20,8 @@ window.addEventListener( "load", async function () {
         document.getElementById( "eintrag5" )
     ];
 
+    divMeldung = document.getElementById( "meldung" );
+
     const formular = document.getElementById( "bucketlistFormular" );
     formular.addEventListener( "submit", onSpeichernButton );
 
@@ -26,6 +30,14 @@ window.addEventListener( "load", async function () {
     console.log( "Seite für Liste initialisiert." );
 });
 
+
+function zeigeNachricht( nachricht ) {
+
+    divMeldung.textContent = nachricht;
+    setTimeout( () => {
+        divMeldung.textContent = "";
+    }, 5000 );
+}
 
 /**
  * Lädt die Liste der Einträge aus IndexedDB.
@@ -39,7 +51,7 @@ async function ladeListe() {
 
         if ( eintraegeVonDb.length === 0 ) {
 
-            alert( "Keine Einträge in der Datenbank gefunden." );
+            zeigeNachricht( "Es sind keine gespeicherten Einträge vorhanden." );
             return;
         }
 
@@ -59,7 +71,7 @@ async function ladeListe() {
     } catch ( fehler ) {
 
         console.error( "Fehler beim Laden der Liste aus der Datenbank:", fehler );
-        alert( "Fehler beim Laden der gespeicherten Einträge." );
+        zeigeNachricht( "Fehler beim Laden der gespeicherten Einträge." );
     }
 }
 
@@ -89,4 +101,6 @@ async function onSpeichernButton( event ) {
 
     await speichereListe( eintraegeArray );
     console.log( `Anzahl gespeicherte Einträge: ${eintraegeArray.length}` );
+
+    zeigeNachricht( "Liste gespeichert" );
 }
