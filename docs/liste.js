@@ -1,7 +1,5 @@
 "use strict";
 
-
-
 let inputEintragArray = [];
 
 
@@ -45,14 +43,17 @@ async function ladeListe() {
 
         for ( let i = 0; i < eintraegeVonDb.length; i++ ) {
 
-            const eintrag = BucketListEintrag.fromDbObject( eintraegeVonDb[i] );
+            const eintrag = eintraegeVonDb[i];
 
-            if ( eintrag.istGueltig() ) {
-                inputEintragArray[ eintrag.nummer - 1 ].value = eintrag.text;
-            } else {
-                console.warn( "Ungültiger Eintrag in Datenbank gefunden:", eintraegeVonDb[i] );
+            const nr = eintrag.nr;
+            if ( nr < 1 || nr > inputEintragArray.length ) {
+
+                console.warn( "Ungültige Eintragsnummer in Datenbank gefunden:", eintrag );
+                continue;
             }
+            inputEintragArray[ eintrag.nummer - 1 ].value = eintrag.text;
         }
+
     } catch ( fehler ) {
 
         console.error( "Fehler beim Laden der Liste aus der Datenbank:", fehler );
@@ -64,6 +65,25 @@ async function ladeListe() {
 /**
  * Aktuelle Liste in IndexedDB speichern.
  */
-async function onSpeichernButton() {
+async function onSpeichernButton( event ) {
 
+    event.preventDefault();
+
+    const eintraegeArray = [];
+
+    for ( let i = 0; i < inputEintragArray.length; i++ ) {
+
+        const text = inputEintragArray[i].value.trim();
+        if ( text.length > 0 ) {
+
+            const eintragObj = {
+                nummer: i + 1,
+                text  : text
+            }
+            eintraegeArray.push( eintragObj );
+        }
+    }
+
+    await speichereListe( eintraegeArray );
+    console.log( `Anzahl gespeicherte Einträge: ${eintraegeArray.length}` );
 }

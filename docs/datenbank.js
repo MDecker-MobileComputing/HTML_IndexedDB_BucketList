@@ -49,7 +49,7 @@ function holeDatenbankVerbindung() {
 
 
 /**
- * Alle gespeicherten Einträge aus der Datenbank holen.
+ * Alle gespeicherten BucketList-Einträge aus der IndexedDB-Datenbank holen.
  *
  * @returns {Promise<Array>} Promise mit Array aller gespeicherten Einträge
  */
@@ -67,5 +67,36 @@ async function holeListe() {
         request.onsuccess = () => { resolve( request.result ); } // request.result ist immer Array, evtl. aber mit 0 Elementen
         request.onerror   = () => { reject(  request.error  ); }
     });
+}
 
+
+/**
+ * Speichert die übergebenen Einträge in der IndexedDB-Datenbank.
+ * Verwendet "Tabula Rasa" Ansatz: Löscht alle vorhandenen Einträge und speichert neue.
+ *
+ * @param {Array} eintraegeArray Einträge, die auf die Datenbank gespeichert werden sollen
+ */
+async function speichereListe( eintraegeArray ) {
+
+    const datenbank = await holeDatenbankVerbindung();
+
+    const tx    = datenbank.transaction( STORE_LISTENEINTRAEGE, "readwrite" );
+    const store = tx.objectStore( STORE_LISTENEINTRAEGE );
+
+    // Tabula Rasa: Alle vorhandenen Einträge löschen
+    store.clear();
+
+    for ( const eintrag of eintraegeArray ) {
+
+        store.add( eintrag );
+    }
+
+    return new Promise( (resolve,reject) => {
+
+        tx.oncomplete = () => {
+            console.log( `${eintraegeArray.length} Einträge erfolgreich gespeichert.` );
+            resolve();
+        }
+        tx.onerror   = () => { reject( tx.error ); }
+    });
 }
